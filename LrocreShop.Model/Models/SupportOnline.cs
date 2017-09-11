@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace LrocreShop.Model.Models
 {
     [Table("SupportOnline")]
-    internal class SupportOnline
+    public class SupportOnline
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
