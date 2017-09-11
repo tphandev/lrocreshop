@@ -7,15 +7,18 @@ namespace LrocreShop.Model.Models
     public class Tag
     {
         [Key]
+        [Column(TypeName ="varchar")]
         [MaxLength(50)]
         public string ID { get; set; }
 
-        [Key]
+      
         [MaxLength(50)]
+        [Required]
         public string Name { get; set; }
 
-        [Key]
+     
         [MaxLength(50)]
+        [Required]
         public string type { get; set; }
     }
 }

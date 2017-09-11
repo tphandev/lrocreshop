@@ -27,7 +27,8 @@ namespace LrocreShop.Model.Models
         [MaxLength(250)]
         public string Image { get; set; }
 
-        public XElement MoreImages { set; get; }
+        [Column(TypeName ="xml")]
+        public string MoreImages { set; get; }
         public decimal Price { set; get; }
 
         public decimal? PromotionPrice { set; get; }
