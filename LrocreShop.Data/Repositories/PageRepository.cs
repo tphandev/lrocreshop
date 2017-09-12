@@ -3,7 +3,7 @@ using LrocreShop.Model.Models;
 
 namespace LrocreShop.Data.Repositories
 {
-    public interface IPageRepository
+    public interface IPageRepository : IRepository<Page>
     {
     }
 

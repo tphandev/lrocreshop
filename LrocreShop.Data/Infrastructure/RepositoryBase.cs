@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LrocreShop.Data.Infrastructure
 {
-    public abstract class RepositoryBase<T>:IRepository<T> where T : class
+    public abstract class RepositoryBase<T> : IRepository<T> where T : class
     {
         #region Properties
         private LrocreShopDbContext dataContext;
@@ -46,6 +46,12 @@ namespace LrocreShop.Data.Infrastructure
 
         public virtual void Delete(T entity)
         {
+            dbSet.Remove(entity);
+        }
+
+        public virtual void Delete(int id)
+        {
+            var entity = dbSet.Find(id);
             dbSet.Remove(entity);
         }
 

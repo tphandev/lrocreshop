@@ -3,7 +3,7 @@ using LrocreShop.Model.Models;
 
 namespace LrocreShop.Data.Repositories
 {
-    public interface IPostCategoryRepository
+    public interface IPostCategoryRepository : IRepository<PostCategory>
     {
     }
 

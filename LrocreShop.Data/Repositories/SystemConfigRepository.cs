@@ -3,7 +3,7 @@ using LrocreShop.Model.Models;
 
 namespace LrocreShop.Data.Repositories
 {
-    public interface ISystemConfigRepository
+    public interface ISystemConfigRepository : IRepository<SystemConfig>
     {
     }
 

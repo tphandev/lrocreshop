@@ -3,7 +3,7 @@ using LrocreShop.Model.Models;
 
 namespace LrocreShop.Data.Repositories
 {
-    public interface IOrderDetailRepository
+    public interface IOrderDetailRepository : IRepository<OrderDetail>
     {
     }
 

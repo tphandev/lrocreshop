@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LrocreShop.Data.Repositories
 {
-    public interface IPostTagRepository
+    public interface IPostTagRepository : IRepository<PostTag>
     {
     }
 

@@ -15,6 +15,9 @@ namespace LrocreShop.Data.Infrastructure
         // Marks an entity to be removed
         void Delete(T entity);
 
+        // Marks an entity to be removed
+        void Delete(int id);
+
         //Delete multi records
         void DeleteMulti(Expression<Func<T, bool>> where);
 
