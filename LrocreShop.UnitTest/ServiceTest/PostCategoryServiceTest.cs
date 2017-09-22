@@ -48,7 +48,6 @@ namespace TeduShop.UnitTest.ServiceTest
         public void PostCategory_Service_Create()
         {
             PostCategory category = new PostCategory();
-            int id = 1;
             category.Name = "Test";
             category.Alias = "test";
             category.Status = true;
