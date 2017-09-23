@@ -1,10 +1,13 @@
-﻿using LrocreShop.Model.Models;
+﻿using AutoMapper;
+using LrocreShop.Model.Models;
 using LrocreShop.Service;
 using LrocreShop.Web.Infrastructure.Core;
+using LrocreShop.Web.Models;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using LrocreShop.Web.Infrastructure.Extensions;
 
 namespace LrocreShop.Web.Api
 {
@@ -21,12 +24,13 @@ namespace LrocreShop.Web.Api
         [Route("getall")]
         public HttpResponseMessage Get(HttpRequestMessage request)
         {
-            return CreateHttpResponse(request, () => {
+            return CreateHttpResponse(request, () =>
+            {
                 HttpResponseMessage response = null;
                 if (ModelState.IsValid)
                 {
                     var listCategory = _postCategoryService.GetAll();
-
+                    var listPostCategoryVm = Mapper.Map<List<PostCategoryViewModel>>(listCategory);
                     response = request.CreateResponse(HttpStatusCode.OK, listCategory);
                 }
                 else
@@ -37,13 +41,18 @@ namespace LrocreShop.Web.Api
             });
         }
 
-        public HttpResponseMessage Post(HttpRequestMessage request, PostCategory postCategory)
+        [Route("add")]
+        public HttpResponseMessage Post(HttpRequestMessage request, PostCategoryViewModel postCategoryVm)
         {
-            return CreateHttpResponse(request, () => {
+            return CreateHttpResponse(request, () =>
+            {
                 HttpResponseMessage response = null;
                 if (ModelState.IsValid)
                 {
-                    var category= _postCategoryService.Add(postCategory);
+                    PostCategory newPostCategory = new PostCategory();
+                    newPostCategory.UpdatePostCategory(postCategoryVm);
+
+                    var category = _postCategoryService.Add(newPostCategory);
                     _postCategoryService.SaveChanges();
 
                     response = request.CreateResponse(HttpStatusCode.Created, category);
@@ -56,13 +65,18 @@ namespace LrocreShop.Web.Api
             });
         }
 
-        public HttpResponseMessage Put(HttpRequestMessage request, PostCategory postCategory)
+        [Route("update")]
+        public HttpResponseMessage Put(HttpRequestMessage request, PostCategoryViewModel postCategoryVm)
         {
-            return CreateHttpResponse(request, () => {
+            return CreateHttpResponse(request, () =>
+            {
                 HttpResponseMessage response = null;
                 if (ModelState.IsValid)
                 {
-                    _postCategoryService.Update(postCategory);
+                    var postCategoryDb = _postCategoryService.GetByID(postCategoryVm.ID);
+                    postCategoryDb.UpdatePostCategory(postCategoryVm);
+
+                    _postCategoryService.Update(postCategoryDb);
                     _postCategoryService.SaveChanges();
 
                     response = request.CreateResponse(HttpStatusCode.OK);
@@ -77,7 +91,8 @@ namespace LrocreShop.Web.Api
 
         public HttpResponseMessage Detele(HttpRequestMessage request, int id)
         {
-            return CreateHttpResponse(request, () => {
+            return CreateHttpResponse(request, () =>
+            {
                 HttpResponseMessage response = null;
                 if (ModelState.IsValid)
                 {

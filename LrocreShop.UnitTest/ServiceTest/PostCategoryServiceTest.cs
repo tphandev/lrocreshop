@@ -6,7 +6,7 @@ using LrocreShop.Data.Repositories;
 using LrocreShop.Model.Models;
 using LrocreShop.Service;
 
-namespace TeduShop.UnitTest.ServiceTest
+namespace LrocreShop.UnitTest.ServiceTest
 {
     [TestClass]
     public class PostCategoryServiceTest
