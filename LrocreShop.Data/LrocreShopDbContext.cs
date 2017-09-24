@@ -1,9 +1,10 @@
 ﻿using LrocreShop.Model.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 
 namespace LrocreShop.Data
 {
-    public class LrocreShopDbContext : DbContext
+    public class LrocreShopDbContext : IdentityDbContext<ApplicationUser>
     {
         public LrocreShopDbContext()
             : base("LrocreShopConnection")
@@ -30,9 +31,16 @@ namespace LrocreShop.Data
         public DbSet<VisitorStatistic> VisitorStatistics { get; set; }
         public DbSet<Error> Errors { get; set; }
 
+        public static LrocreShopDbContext Create()
+        {
+            return new LrocreShopDbContext();
+        }
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<IdentityUserRole>().HasKey(i => new { i.UserId, i.RoleId });
+            modelBuilder.Entity<IdentityUserLogin>().HasKey(i => i.UserId);
         }
 
     }
