@@ -17,6 +17,11 @@ namespace LrocreShop.Web.Mappings
                 cfg.CreateMap<PostCategory, PostCategoryViewModel>();
                 cfg.CreateMap<Post, PostViewModel>();
                 cfg.CreateMap<PostTag, PostTagViewModel>();
+
+                cfg.CreateMap<ProductCategory, ProductCategoryViewModel>();
+                cfg.CreateMap<Product, ProductViewModel>();
+                cfg.CreateMap<ProductTag, ProductTagViewModel>();
+
                 cfg.CreateMap<Tag, TagViewModel>();               
             });
         }

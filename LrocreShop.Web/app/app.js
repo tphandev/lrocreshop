@@ -1,7 +1,10 @@
 ﻿/// <reference path="/Assets/admin/libs/angular/angular.js" />
 
 (function () {
-    angular.module('lrocreshop', ['lrocreshop.products', 'lrocreshop.common']).config(config);
+    angular.module('lrocreshop',
+            ['lrocreshop.products',
+            'lrocreshop.product_categories',
+            'lrocreshop.common']).config(config);
 
     config.$inject = ['$stateProvider', '$urlRouterProvider'];
 

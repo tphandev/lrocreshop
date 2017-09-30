@@ -26,17 +26,9 @@ namespace LrocreShop.Web.Api
         {
             return CreateHttpResponse(request, () =>
             {
-                HttpResponseMessage response = null;
-                if (ModelState.IsValid)
-                {
-                    var listCategory = _postCategoryService.GetAll();
-                    var listPostCategoryVm = Mapper.Map<List<PostCategoryViewModel>>(listCategory);
-                    response = request.CreateResponse(HttpStatusCode.OK, listCategory);
-                }
-                else
-                {
-                    request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
-                }
+                var listPostCategory = _postCategoryService.GetAll();
+                var listPostCategoryVm = Mapper.Map<List<PostCategoryViewModel>>(listPostCategory);
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, listPostCategoryVm);               
                 return response;
             });
         }
