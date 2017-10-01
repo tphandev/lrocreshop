@@ -1,20 +1,21 @@
-﻿using LrocreShop.Web.Infrastructure.Core;
+﻿using AutoMapper;
+using LrocreShop.Service;
+using LrocreShop.Web.Infrastructure.Core;
+using LrocreShop.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using LrocreShop.Service;
-using AutoMapper;
-using LrocreShop.Web.Models;
 
 namespace LrocreShop.Web.Api
 {
     [RoutePrefix("api/productcategory")]
     public class ProductCategoryController : ApiControllerBase
     {
-        IProductCategoryService _productCategoryService;
+        private IProductCategoryService _productCategoryService;
+
         public ProductCategoryController(IErrorService errorService, IProductCategoryService productCategoryService)
             : base(errorService)
         {
@@ -22,19 +23,31 @@ namespace LrocreShop.Web.Api
         }
 
         [Route("getall")]
-        public HttpResponseMessage Get(HttpRequestMessage request)
+        public HttpResponseMessage Get(HttpRequestMessage request, int page, int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
             {
+                int totalRow = 0;
                 var listProductCategory = _productCategoryService.GetAll();
 
-                var listPostCategoryVm = Mapper.Map<List<ProductCategoryViewModel>>(listProductCategory);
+                totalRow = listProductCategory.Count();
 
-                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, listPostCategoryVm);
+                var query = listProductCategory.OrderByDescending(x => x.CreatedDate).Skip(page * pageSize).Take(pageSize);
+
+                var listPostCategoryVm = Mapper.Map<List<ProductCategoryViewModel>>(query);
+
+                var paginationSet = new PaginationSet<ProductCategoryViewModel>()
+                {
+                    Items = listPostCategoryVm,
+                    Page = page,
+                    TotalCount = totalRow,
+                    TotalPages = (int)Math.Ceiling((decimal)totalRow / pageSize)
+                };
+
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, paginationSet);
 
                 return response;
             });
         }
-
     }
 }
