@@ -23,12 +23,12 @@ namespace LrocreShop.Web.Api
         }
 
         [Route("getall")]
-        public HttpResponseMessage Get(HttpRequestMessage request, int page, int pageSize = 20)
+        public HttpResponseMessage Get(HttpRequestMessage request,string keyword, int page, int pageSize = 20)
         {
             return CreateHttpResponse(request, () =>
             {
                 int totalRow = 0;
-                var listProductCategory = _productCategoryService.GetAll();
+                var listProductCategory = _productCategoryService.GetAll(keyword);
 
                 totalRow = listProductCategory.Count();
 
