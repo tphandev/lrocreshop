@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using LrocreShop.Model.Models;
 using LrocreShop.Service;
 using LrocreShop.Web.Infrastructure.Core;
+using LrocreShop.Web.Infrastructure.Extensions;
 using LrocreShop.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -46,6 +48,46 @@ namespace LrocreShop.Web.Api
 
                 HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, paginationSet);
 
+                return response;
+            });
+        }
+
+        [Route("getallparents")]
+        public HttpResponseMessage Get(HttpRequestMessage request)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                var listProductCategory = _productCategoryService.GetAll();
+
+                var listPostCategoryVm = Mapper.Map<List<ProductCategoryViewModel>>(listProductCategory);             
+
+                HttpResponseMessage response = request.CreateResponse(HttpStatusCode.OK, listPostCategoryVm);
+
+                return response;
+            });
+        }
+
+        [Route("create")]
+        public HttpResponseMessage Post(HttpRequestMessage request, ProductCategoryViewModel productCategoryVm)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = null;
+                if (ModelState.IsValid)
+                {
+                    ProductCategory newProductCategory = new ProductCategory();
+                    newProductCategory.UpdateProductCategory(productCategoryVm);
+
+                    var productCategory = _productCategoryService.Add(newProductCategory);
+                    _productCategoryService.SaveChanges();
+
+                    var responseData = Mapper.Map<ProductCategoryViewModel>(productCategory);
+                    response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                }
+                else
+                {
+                    request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
                 return response;
             });
         }

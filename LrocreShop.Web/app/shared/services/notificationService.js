@@ -24,7 +24,7 @@
                 });
             }
             else
-                toastr.success(error);
+                toastr.error(error);
         }
         function displayInfo(message) {
             toastr.info(message);

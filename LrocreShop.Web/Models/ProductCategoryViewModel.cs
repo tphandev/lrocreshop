@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -8,9 +9,9 @@ namespace LrocreShop.Web.Models
     public class ProductCategoryViewModel
     {
         public int ID { get; set; }
-        
+        [Required]
         public string Name { get; set; }
-
+        [Required]
         public string Alias { set; get; }
 
     
@@ -34,7 +35,7 @@ namespace LrocreShop.Web.Models
         public string MetaKeyword { set; get; }
 
         public string MetaDescription { set; get; }
-
+        [Required]
         public bool Status { set; get; }
 
         public virtual IEnumerable<ProductViewModel> Products { set; get; }
