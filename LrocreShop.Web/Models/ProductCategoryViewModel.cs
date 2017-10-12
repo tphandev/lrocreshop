@@ -9,9 +9,9 @@ namespace LrocreShop.Web.Models
     public class ProductCategoryViewModel
     {
         public int ID { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Yêu cầu nhập tên danh mục")]
         public string Name { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Yêu cầu nhập tiêu đề SEO")]
         public string Alias { set; get; }
 
     
@@ -35,7 +35,8 @@ namespace LrocreShop.Web.Models
         public string MetaKeyword { set; get; }
 
         public string MetaDescription { set; get; }
-        [Required]
+
+        [Required(ErrorMessage = "Yêu cầu nhập trạng thái")]
         public bool Status { set; get; }
 
         public virtual IEnumerable<ProductViewModel> Products { set; get; }
