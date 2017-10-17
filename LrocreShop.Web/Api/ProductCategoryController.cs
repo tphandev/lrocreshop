@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Script.Serialization;
 
 namespace LrocreShop.Web.Api
 {
@@ -110,7 +111,7 @@ namespace LrocreShop.Web.Api
         }
 
         [Route("update")]
-        public HttpResponseMessage Put(HttpRequestMessage request, ProductCategoryViewModel productCategoryVm)
+        public HttpResponseMessage Put(HttpRequestMessage request, ProductCategoryViewModel productCategoryVm) 
         {
             return CreateHttpResponse(request, () =>
             {
@@ -126,6 +127,55 @@ namespace LrocreShop.Web.Api
 
                     var responseData = Mapper.Map<ProductCategoryViewModel>(dbProductCategory);
                     response = request.CreateResponse(HttpStatusCode.Created, responseData);
+                }
+                else
+                {
+                    request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+                return response;
+            });
+        }
+
+        [Route("delete")]
+        public HttpResponseMessage Delete(HttpRequestMessage request, int id)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = null;
+                if (ModelState.IsValid)
+                {
+                    var oldProductCategory= _productCategoryService.Delete(id);
+                    _productCategoryService.SaveChanges();
+
+                    var responseData = Mapper.Map<ProductCategoryViewModel>(oldProductCategory);
+                    response = request.CreateResponse(HttpStatusCode.OK, responseData);
+                }
+                else
+                {
+                    request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+                }
+                return response;
+            });
+        }
+
+        [Route("deletemulti")]
+        public HttpResponseMessage Delete(HttpRequestMessage request, string checkedProductCategoryIds)
+        {
+            return CreateHttpResponse(request, () =>
+            {
+                HttpResponseMessage response = null;
+                if (ModelState.IsValid)
+                {
+                    var listProductCategoryIds = new JavaScriptSerializer().Deserialize<List<int>>(checkedProductCategoryIds);
+                    foreach (var item in listProductCategoryIds)
+                    {
+                        _productCategoryService.Delete(item);
+                     
+                    }
+
+                    _productCategoryService.SaveChanges();
+
+                    response = request.CreateResponse(HttpStatusCode.OK, listProductCategoryIds.Count());
                 }
                 else
                 {

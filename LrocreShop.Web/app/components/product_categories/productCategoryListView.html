@@ -23,6 +23,7 @@
                     <div class="row">
                         <div class="col-md-6">
                            <button class="btn btn-success" ui-sref="add_product_category">Thêm mới</button>
+                            <button class="btn btn-danger" ng-click="deleteMultiple()" id="btnDelete" disabled>Xóa</button>
                         </div>
                         <div class="col-md-6 pull-right">
                             <div class="input-group">
@@ -37,6 +38,7 @@
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
+                                <th><input name="all" type="checkbox" ng-click="selectAll()"/> </th>
                                 <th>ID</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Ngày tạo</th>
@@ -44,13 +46,14 @@
                                 <th>Thao tác</th>
                             </tr>
                             <tr ng-repeat="item in productCategories">
+                                <td> <input name="all" type="checkbox" ng-model="item.checked" /></td>
                                 <td>{{item.ID}}</td>
                                 <td>{{item.Name}}</td>
                                 <td>{{item.CreatedDate | date :'dd/MM/yyyy hh:mm:ss'}}</td>
                                 <td><span ng-class="{'badge bg-red':item.Status==false,'badge bg-green':item.Status==true}">{{item.Status | statusFilter}}</span></td>
                                 <td>
                                     <button class="btn btn-sm btn-primary" ui-sref="edit_product_category({id:item.ID})"><i class="fa fa-pencil"></i></button>
-                                    <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+                                    <button class="btn btn-sm btn-danger" ng-click="del(item.ID)"><i class="fa fa-trash"></i></button>
                                 </td>
                             </tr>
                        <tfooter>
