@@ -3,9 +3,6 @@ using LrocreShop.Data.Repositories;
 using LrocreShop.Model.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LrocreShop.Service
 {

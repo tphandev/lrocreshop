@@ -64,6 +64,7 @@ namespace LrocreShop.Web.Infrastructure.Extensions
             post.HotFlag = postVm.HotFlag;
             post.ViewCount = postVm.ViewCount;
 
+
             post.CreatedDate = postVm.CreatedDate;
             post.CreatedBy = postVm.CreatedBy;
             post.UpdatedDate = postVm.UpdatedDate;
@@ -71,6 +72,33 @@ namespace LrocreShop.Web.Infrastructure.Extensions
             post.MetaKeyword = postVm.MetaKeyword;
             post.MetaDescription = postVm.MetaDescription;
             post.Status = postVm.Status;
+        }
+
+        public static void UpdateProduct(this Product product, ProductViewModel productVm)
+        {
+            product.ID = productVm.ID;
+            product.Name = productVm.Name;
+            product.Description = productVm.Description;
+            product.Alias = productVm.Alias;
+            product.CategoryID = productVm.CategoryID;
+            product.Price = productVm.Price;
+            product.PromotionPrice = productVm.PromotionPrice;
+            product.Warranty = productVm.Warranty;
+            product.Content = productVm.Content;
+            product.Image = productVm.Image;
+            product.MoreImages = productVm.MoreImages;
+            product.HotFlag = productVm.HotFlag;
+            product.HomeFlag = productVm.HomeFlag;
+            product.ViewCount = productVm.ViewCount;
+
+            product.CreatedDate = productVm.CreatedDate;
+            product.CreatedBy = productVm.CreatedBy;
+            product.UpdatedDate = productVm.UpdatedDate;
+            product.UpdatedBy = productVm.UpdatedBy;
+            product.MetaKeyword = productVm.MetaKeyword;
+            product.MetaDescription = productVm.MetaDescription;
+            product.Status = productVm.Status;
+
         }
     }
 }

@@ -1,3 +1,3 @@
 ﻿(function () {
-    angular.module('lrocreshop.common', ['ui.router', 'ngBootbox'])
+    angular.module('lrocreshop.common', ['ui.router', 'ngBootbox', 'ngCkeditor'])
 })();
