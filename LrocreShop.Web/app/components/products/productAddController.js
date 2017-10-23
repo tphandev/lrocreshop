@@ -23,7 +23,7 @@
         function AddProduct() {
             apiService.post('/api/product/create', $scope.product, function (result) {
                 notificationService.displaySuccess(result.data.Name + ' đã được thêm mới.');
-                $state.go('product_categories');
+                $state.go('products');
 
             }, function (error) {
                 notificationService.displayError('Thêm mới không thành công');

@@ -88,6 +88,12 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="col-sm-2 control-label">Tags</label>
+                    <div class="col-sm-10">
+                        <input class="form-control" name="tags"  type="text" ng-model="product.Tags">
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="col-sm-2 control-label">Meta keyword</label>
                     <div class="col-sm-10">
                         <input class="form-control" name="metaKeyword" ng-maxlength="250" type="text" ng-model="product.MetaKeyword">
@@ -124,7 +130,7 @@
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-                <button class="btn btn-default" ui-sref="product_categories">Hủy</button>
+                <button class="btn btn-default" ui-sref="products">Hủy</button>
                 <button class="btn btn-success pull-right" ng-disabled="frmAddProduct.$invalid" type="submit">Lưu</button>
             </div>
             <!-- /.box-footer -->
