@@ -15,6 +15,7 @@ using System.Web.Script.Serialization;
 namespace LrocreShop.Web.Api
 {
     [RoutePrefix("api/productcategory")]
+    [Authorize]
     public class ProductCategoryController : ApiControllerBase
     {
         #region Initialize
@@ -95,7 +96,7 @@ namespace LrocreShop.Web.Api
                     ProductCategory newProductCategory = new ProductCategory();
                     newProductCategory.UpdateProductCategory(productCategoryVm);
                     newProductCategory.CreatedDate = DateTime.Now;
-
+                    newProductCategory.CreatedBy = User.Identity.Name;
                     var productCategory = _productCategoryService.Add(newProductCategory);
                     _productCategoryService.SaveChanges();
 
@@ -121,7 +122,7 @@ namespace LrocreShop.Web.Api
                     ProductCategory dbProductCategory =_productCategoryService.GetByID(productCategoryVm.ID);
                     dbProductCategory.UpdateProductCategory(productCategoryVm);
                     dbProductCategory.UpdatedDate = DateTime.Now;
-
+                    dbProductCategory.CreatedBy = User.Identity.Name;
                     _productCategoryService.Update(dbProductCategory);
                     _productCategoryService.SaveChanges();
 

@@ -12,6 +12,7 @@ using LrocreShop.Web.Infrastructure.Extensions;
 namespace LrocreShop.Web.Api
 {
     [RoutePrefix("api/postcategory")]
+    [Authorize]
     public class PostCategoryController : ApiControllerBase
     {
         private IPostCategoryService _postCategoryService;

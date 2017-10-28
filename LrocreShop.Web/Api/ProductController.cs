@@ -15,6 +15,7 @@ using System.Web.Script.Serialization;
 namespace LrocreShop.Web.Api
 {
     [RoutePrefix("api/product")]
+    [Authorize]
     public class ProductController : ApiControllerBase
     {
         #region Initialize
@@ -80,7 +81,7 @@ namespace LrocreShop.Web.Api
                     Product newProduct = new Product();
                     newProduct.UpdateProduct(productVm);
                     newProduct.CreatedDate = DateTime.Now;
-
+                    newProduct.CreatedBy = User.Identity.Name;
                     var product = _productService.Add(newProduct);
                     _productService.SaveChanges();
 
