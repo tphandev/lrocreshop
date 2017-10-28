@@ -107,7 +107,7 @@ namespace LrocreShop.Web.Api
                     Product dbProduct = _productService.GetByID(productVm.ID);
                     dbProduct.UpdateProduct(productVm);
                     dbProduct.UpdatedDate = DateTime.Now;
-
+                    dbProduct.CreatedBy = User.Identity.Name;
                     _productService.Update(dbProduct);
                     _productService.SaveChanges();
 
