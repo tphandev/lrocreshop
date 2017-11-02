@@ -12,15 +12,31 @@ namespace TeduShop.Web.Controllers
     public class HomeController : Controller
     {
         IProductCategoryService _productCategoryService;
+        IProductService _productService;
         ICommonService _commonService;
-        public HomeController(IProductCategoryService productCategoryService, ICommonService commonService)
+        public HomeController(IProductCategoryService productCategoryService, IProductService productService, ICommonService commonService)
         {
             _productCategoryService = productCategoryService;
+            _productService = productService;
             _commonService = commonService;
         }
         public ActionResult Index()
         {
-            return View();
+            var slideModel = _commonService.GetSlides();
+            var sildeViewModel = Mapper.Map<IEnumerable<SlideViewModel>>(slideModel);
+            var homeViewModel = new HomeViewModel();
+           
+
+            var lastestProductModel = _productService.GetLastest(3);
+            var topSaleProductModel = _productService.GetHot(3);
+            var lastestProductViewModel = Mapper.Map<IEnumerable<ProductViewModel>>(lastestProductModel);
+            var topSaleViewModel = Mapper.Map<IEnumerable<ProductViewModel>>(topSaleProductModel);
+
+            homeViewModel.Slides = sildeViewModel;
+            homeViewModel.LastestProducts = lastestProductViewModel;
+            homeViewModel.TopSaleProducts = topSaleViewModel;
+
+            return View(homeViewModel);
         }
 
         public ActionResult About()

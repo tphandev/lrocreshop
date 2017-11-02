@@ -4,6 +4,7 @@ using LrocreShop.Data.Repositories;
 using LrocreShop.Model.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LrocreShop.Service
 {
@@ -20,6 +21,10 @@ namespace LrocreShop.Service
         IEnumerable<Product> GetAllByCategoryId(int categoryId);
 
         IEnumerable<Product> GetAll(string keyword);
+
+        IEnumerable<Product> GetLastest(int top);
+
+        IEnumerable<Product> GetHot(int top);
 
         Product GetByID(int id);
 
@@ -126,6 +131,16 @@ namespace LrocreShop.Service
                     _productTagRepository.Add(productTag);
                 }
             }
+        }
+
+        public IEnumerable<Product> GetLastest(int top)
+        {
+            return _productRepository.GetMulti(x => x.Status == true).OrderByDescending(x => x.CreatedDate).Take(top);
+        }
+
+        public IEnumerable<Product> GetHot(int top)
+        {
+            return _productRepository.GetMulti(x => x.Status == true && x.HotFlag == true).OrderByDescending(x => x.CreatedDate).Take(top);
         }
     }
 }

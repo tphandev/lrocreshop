@@ -24,6 +24,7 @@ namespace LrocreShop.Web.Mappings
 
                 cfg.CreateMap<Tag, TagViewModel>();
                 cfg.CreateMap<Footer, FooterViewModel>();
+                cfg.CreateMap<Slide, SlideViewModel>();
             });
         }
     }
