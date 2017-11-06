@@ -26,6 +26,8 @@ namespace LrocreShop.Service
 
         IEnumerable<Product> GetHot(int top);
 
+        IEnumerable<Product> GetListProductByCategoryIdPaging(int categoryId, int page, int pageSize, out int totalRow);
+
         Product GetByID(int id);
 
         void SaveChanges();
@@ -141,6 +143,14 @@ namespace LrocreShop.Service
         public IEnumerable<Product> GetHot(int top)
         {
             return _productRepository.GetMulti(x => x.Status == true && x.HotFlag == true).OrderByDescending(x => x.CreatedDate).Take(top);
+        }
+
+        public IEnumerable<Product> GetListProductByCategoryIdPaging(int categoryId, int page, int pageSize, out int totalRow)
+        {
+            var query = _productRepository.GetMulti(x => x.Status && x.CategoryID == categoryId);
+            totalRow = query.Count();
+
+            return query.Skip((page - 1) * pageSize).Take(pageSize);
         }
     }
 }
