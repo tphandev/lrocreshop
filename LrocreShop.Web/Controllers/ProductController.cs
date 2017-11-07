@@ -25,11 +25,11 @@ namespace LrocreShop.Web.Controllers
         {
             return View();
         }
-        public ActionResult Category(int id, int page = 1, string sort="")
+        public ActionResult Category(int id, int page = 1, string sort = "")
         {
             int pageSize = int.Parse(ConfigHelper.GetByKey("PageSize"));
             int totalRow = 0;
-            var productModel = _productService.GetListProductByCategoryIdPaging(id, page, pageSize,sort, out totalRow);
+            var productModel = _productService.GetListProductByCategoryIdPaging(id, page, pageSize, sort, out totalRow);
             var ProductViewModel = Mapper.Map<IEnumerable<ProductViewModel>>(productModel);
             int totalPage = (int)Math.Ceiling((double)totalRow / pageSize);
             var category = _productCategoryService.GetByID(id);
@@ -43,6 +43,35 @@ namespace LrocreShop.Web.Controllers
                 TotalPages = totalPage
             };
             return View(paginationSet);
+        }
+
+        public ActionResult Search(string keyword, int page = 1, string sort = "")
+        {
+            int pageSize = int.Parse(ConfigHelper.GetByKey("PageSize"));
+            int totalRow = 0;
+            var productModel = _productService.Search(keyword, page, pageSize, sort, out totalRow);
+            var ProductViewModel = Mapper.Map<IEnumerable<ProductViewModel>>(productModel);
+            int totalPage = (int)Math.Ceiling((double)totalRow / pageSize);
+
+            ViewBag.Keyword = keyword;
+            var paginationSet = new PaginationSet<ProductViewModel>()
+            {
+                Items = ProductViewModel,
+                MaxPage = int.Parse(ConfigHelper.GetByKey("MaxPage")),
+                Page = page,
+                TotalCount = totalRow,
+                TotalPages = totalPage
+            };
+            return View(paginationSet);
+        }
+
+        public JsonResult GetListProductByName(string keyword)
+        {
+            var name = _productService.GetListProductByName(keyword);
+            return Json(new
+            {
+                data = name
+            }, JsonRequestBehavior.AllowGet);
         }
     }
 }
