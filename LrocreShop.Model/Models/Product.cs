@@ -43,7 +43,9 @@ namespace LrocreShop.Model.Models
         public int? ViewCount { set; get; }
 
         public string Tags { set; get; }
-        
+
+        public int Quantity { get; set; }
+
         [ForeignKey("CategoryID")]
         public virtual ProductCategory ProductCategory { set; get; }
     }

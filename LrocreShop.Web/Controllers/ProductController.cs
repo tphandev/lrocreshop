@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Script.Serialization;
 
 namespace LrocreShop.Web.Controllers
 {
@@ -23,7 +24,14 @@ namespace LrocreShop.Web.Controllers
         // GET: Product
         public ActionResult Detail(int id)
         {
-            return View();
+            var productModel = _productService.GetByID(id);
+            var productViewModel = Mapper.Map<ProductViewModel>(productModel);
+            var relatedProducts = _productService.GetReatedProducts(id, 6);
+            ViewBag.RelatedProducts = Mapper.Map<IEnumerable<ProductViewModel>>(relatedProducts);
+            var moreImages = productViewModel.MoreImages;
+            List<string> listImages = new JavaScriptSerializer().Deserialize<List<string>>(moreImages);
+            ViewBag.MoreImages = listImages;
+            return View(productViewModel);
         }
         public ActionResult Category(int id, int page = 1, string sort = "")
         {
