@@ -26,11 +26,16 @@ namespace LrocreShop.Web.Controllers
         {
             var productModel = _productService.GetByID(id);
             var productViewModel = Mapper.Map<ProductViewModel>(productModel);
+
             var relatedProducts = _productService.GetReatedProducts(id, 6);
             ViewBag.RelatedProducts = Mapper.Map<IEnumerable<ProductViewModel>>(relatedProducts);
+
             var moreImages = productViewModel.MoreImages;
             List<string> listImages = new JavaScriptSerializer().Deserialize<List<string>>(moreImages);
             ViewBag.MoreImages = listImages;
+
+            var tagModel = _productService.GetListTagByProdictId(id);
+            ViewBag.Tags = Mapper.Map<IEnumerable<TagViewModel>>(tagModel);
             return View(productViewModel);
         }
         public ActionResult Category(int id, int page = 1, string sort = "")
@@ -72,7 +77,25 @@ namespace LrocreShop.Web.Controllers
             };
             return View(paginationSet);
         }
+        public ActionResult ListByTag(string tagId, int page = 1)
+        {
+            int pageSize = int.Parse(ConfigHelper.GetByKey("PageSize"));
+            int totalRow = 0;
+            var productModel = _productService.GetListProductByTag(tagId, page, pageSize, out totalRow);
+            var ProductViewModel = Mapper.Map<IEnumerable<ProductViewModel>>(productModel);
+            int totalPage = (int)Math.Ceiling((double)totalRow / pageSize);
 
+            ViewBag.Tag = Mapper.Map<TagViewModel>(_productService.GetTag(tagId));
+            var paginationSet = new PaginationSet<ProductViewModel>()
+            {
+                Items = ProductViewModel,
+                MaxPage = int.Parse(ConfigHelper.GetByKey("MaxPage")),
+                Page = page,
+                TotalCount = totalRow,
+                TotalPages = totalPage
+            };
+            return View(paginationSet);
+        }
         public JsonResult GetListProductByName(string keyword)
         {
             var name = _productService.GetListProductByName(keyword);
