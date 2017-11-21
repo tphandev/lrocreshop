@@ -102,5 +102,15 @@ namespace LrocreShop.Web.Infrastructure.Extensions
             product.Quantity = productVm.Quantity;
 
         }
+
+        public static void UpdateFeedback(this Feedback feedback, FeedbackViewModel feedbackVm)
+        {
+            feedback.Name = feedbackVm.Name;
+            feedback.Message = feedbackVm.Message;
+            feedback.Email = feedbackVm.Email;
+            feedback.Status = feedbackVm.Status;
+            feedback.CreatedDate = DateTime.Now;
+
+        }
     }
 }

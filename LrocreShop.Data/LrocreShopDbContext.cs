@@ -31,6 +31,7 @@ namespace LrocreShop.Data
         public DbSet<VisitorStatistic> VisitorStatistics { get; set; }
         public DbSet<Error> Errors { get; set; }
         public DbSet<ContactDetail> ContactDetails { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
 
         public static LrocreShopDbContext Create()
         {
