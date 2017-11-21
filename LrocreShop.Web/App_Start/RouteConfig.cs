@@ -28,6 +28,12 @@ namespace LrocreShop.Web
             defaults: new { controller = "Product", action = "Search", id = UrlParameter.Optional },
             namespaces: new string[] { "LrocreShop.Web.Controllers" }
         );
+            routes.MapRoute(
+            name: "register",
+            url: "dang-ky.html",
+            defaults: new { controller = "Account", action = "Register", id = UrlParameter.Optional },
+            namespaces: new string[] { "LrocreShop.Web.Controllers" }
+        );
 
             routes.MapRoute(
              name: "Login",
