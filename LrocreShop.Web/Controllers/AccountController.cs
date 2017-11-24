@@ -11,6 +11,9 @@ using LrocreShop.Common;
 using LrocreShop.Model.Models;
 using LrocreShop.Web.App_Start;
 using LrocreShop.Web.Models;
+using Microsoft.Owin.Security;
+using Microsoft.AspNet.Identity;
+using System.Security.Claims;
 
 namespace LrocreShop.Web.Controllers
 {
@@ -53,10 +56,43 @@ namespace LrocreShop.Web.Controllers
 
         }
         // GET: Account
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
+
+        [HttpPost]
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                ApplicationUser user = _userManager.Find(model.UserName, model.Password);
+                if (user != null)
+                {
+                    IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
+                    authenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+                    ClaimsIdentity identity = _userManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
+                    AuthenticationProperties props = new AuthenticationProperties();
+                    props.IsPersistent = model.RememberMe;
+                    authenticationManager.SignIn(props, identity);
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không đúng.");
+                }
+            }
+            return View(model);
+        }
+
 
         [HttpGet]
         public ActionResult Register()
@@ -112,6 +148,16 @@ namespace LrocreShop.Web.Controllers
             }
 
             return View();
+        }
+
+        [HttpPost]
+
+        [ValidateAntiForgeryToken]
+        public ActionResult LogOut()
+        {
+            IAuthenticationManager authenticationManager = HttpContext.GetOwinContext().Authentication;
+            authenticationManager.SignOut();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
